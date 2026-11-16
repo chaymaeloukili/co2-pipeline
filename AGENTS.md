@@ -1,4 +1,4 @@
-## Projekt
+## Project
 ### What is the goal of our CO₂ project?
 The goal of this project is to analyse CO₂ emissions per person in the 27 EU member states from 2000 to 2024 and identify which country has achieved the largest reduction.
 
@@ -7,6 +7,8 @@ The goal of this project is to analyse CO₂ emissions per person in the 27 EU m
 First, a virtual environment should be created. Then, the required Python libraries need to be installed. After that, the tests can be run to make sure everything works properly.
 - Create virtual environment: `python -m venv .venv`
 - Activate environment (Windows): `.venv\Scripts\activate.bat`
+- Create virtual environment (macOS): `python3 -m venv .venv`
+- Activate environment (macOS): `source .venv/bin/activate`
 - Install packages: `python -m pip install -r requirements.txt`
 - Run tests: `python -m pytest`
 - Download data: `python src/download.py`
@@ -31,11 +33,13 @@ There are 36 entities without an ISO code. These include aggregates such as Worl
 
 Not every entity without an ISO code is an aggregate.
 
+- To select the EU countries, use the list of the 27 country names, not the ISO code.
+
 - Source: Our World in Data – CO₂ and Greenhouse Gas Emissions.
 - Licence: CC BY 4.0.
 
 ## Rules
-- The raw data in data/raw must not modified.
+- The raw data in data/raw must not be modified.
 - Before installing packages, permission must be asked.
 - The tests must not be modified or deleted.
 - After every filtering row counts must be printed.
