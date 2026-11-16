@@ -30,4 +30,34 @@ One limitation I noticed was that Copilot explained the units of the columns wit
 
 ### Three claims
 
-*To be completed by my project partner after independently checking Copilot's claims against the dataset.*
+### Three claims
+
+I checked three claims of Copilot with my own commands.
+
+**1. Units.** Copilot said: population in people, co2 in million tonnes, co2_per_capita in tonnes per person. It did not open the codebook. I checked the codebook:
+
+```
+grep -E "^(co2|co2_per_capita|population)," data/raw/owid-co2-codebook.csv
+```
+
+The codebook says: population in people, co2 in million tonnes (Mt) without land-use change, co2_per_capita in tonnes per person. Copilot was right, but it did not check.
+
+**2. Number of entities.**
+
+```
+python -c "import pandas as pd; df = pd.read_csv('data/raw/owid-co2-data.csv'); print(df['country'].nunique())"
+```
+
+Result: 254. This matches the lab.
+
+**3. ISO codes of non-countries.** Copilot said that aggregates have special codes, for example OWID_WRL for World, and that real countries have a normal ISO code.
+
+```
+python -c "import pandas as pd; df = pd.read_csv('data/raw/owid-co2-data.csv'); x = df[df['iso_code'].isna()]['country'].unique(); print(len(x)); print(list(x))"
+```
+
+Result: 36 entries have no ISO code at all, also World, Africa, Asia and Europe. So the claim about OWID_WRL is wrong for this file.
+
+The list also has Kosovo, which is a country, and International shipping and International aviation, which belong to no country. Copilot did not mention Kosovo or International shipping.
+
+If we keep only rows with an ISO code, we lose Kosovo, although it is a country. Shipping and aviation are removed too. That is right, because they are not countries, but their emissions are then missing from the sum of all countries.
