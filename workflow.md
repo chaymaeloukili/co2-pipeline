@@ -200,3 +200,53 @@ The script prints the row count after the filter: 54 rows (27 countries × 2 yea
 Chart: `figures/co2_eu_reductions.png`. Tests: `python -m pytest` → 5 passed.
 
 **Commit:** `4265fab`
+
+## Verify
+
+### Did the agent touch our tests?
+
+```
+git log --oneline -- tests/
+```
+
+```
+c0e2866 Add tests for the cleaning script before the script exists
+```
+
+Only one commit changed the tests, and it is Chaymae's own commit. Copilot never changed the tests.
+
+### Does it run from scratch?
+
+Chaymae cloned the repository a second time into `co2-check/` on macOS, with the virtual environment activated, and ran the whole pipeline.
+
+- `python src/download.py` failed at first: `SSL: CERTIFICATE_VERIFY_FAILED`. Python from python.org on macOS had no root certificates. Before this test, the script never really downloaded anything, because the files already existed. So this was the first real download.
+- Fix: Chaymae read and then ran the official `Install Certificates.command` that comes with Python. We did not switch off the certificate check.
+- After the fix, the download worked. The checksum was `7f78e2b2…edd5f6`, the same as in the lab.
+- `python src/clean_co2.py` → 5197 rows after the EU27 filter, 675 after 2000–2024.
+- `python -m pytest` → 5 passed.
+- `python src/analyse.py` → the same numbers as in the original repository.
+
+Then the second clone was deleted.
+
+### One number by hand
+
+```
+grep -E "^Luxembourg,(2000|2024)," data/raw/owid-co2-data.csv | cut -d, -f1,2,4,8,17
+```
+
+```
+Luxembourg,2000,436142,8.702,19.953
+Luxembourg,2024,673042,7.040,10.460
+```
+
+With a calculator (co2 × 1,000,000 / population):
+
+- 2000: 8.702 × 1,000,000 / 436,142 = 19.952 t per person (file: 19.953, the difference is rounding)
+- 2024: 7.040 × 1,000,000 / 673,042 = 10.460 t per person (file: 10.460)
+
+This matches our pipeline.
+
+- Population: 436,142 → 673,042, that is **+54.3 %**.
+- Total CO₂: 8.702 → 7.040 million tonnes, that is **−19.1 %**.
+
+So per person, Luxembourg cut its emissions by about 48 %, but its total emissions fell only by 19 %. A big part of the cut per person comes from the growing population.
