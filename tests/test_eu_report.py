@@ -67,3 +67,11 @@ def test_missing_consumption_is_not_zero(df):
 def test_world_share_matches_owid(df, owid_eu):
     share = r.world_share(df, r.eu_members(df))
     assert share[1990] == pytest.approx(owid_eu.loc[1990, "share_global_co2"], abs=0.5)
+
+
+def test_biggest_cuts_start_in_1990(df):
+    eu = r.eu_members(df)
+    cuts = r.biggest_cuts(eu)
+    pc = eu.pivot(index="year", columns="country", values="co2_per_capita")
+    expected = (pc.ffill().iloc[-1] - pc.loc[1990]).round(1)
+    assert (cuts["tonnes"] - expected).abs().max() < 0.05
