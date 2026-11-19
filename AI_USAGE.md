@@ -130,3 +130,67 @@ All prompts, plan changes and rejected actions are in `workflow.md`, section Bui
 ### Reflection
 
 Copilot respected our rules when we wrote them in the prompt and in AGENTS.md. But when we rejected a command, it looked for another way to run it. Manual permissions were necessary to stop this.
+
+
+## Task 5 – Verify, then answer
+
+**Date:** 19 November 2026
+
+**Tools and Models:**
+- GitHub Copilot Chat (VS Code, Interactive mode, Manual permissions, Auto model selection)
+- ChatGPT (OpenAI, GPT-6), used by Ülkü
+- Claude (Anthropic), used by Chaymae (exact model not recorded)
+
+### Prompts (summarized)
+
+**GitHub Copilot:**
+- "Why are the CO2 emissions per person of Luxembourg so high?"
+
+**ChatGPT:**
+- Help me evaluate Copilot's explanation about Luxembourg's CO₂ emissions.
+- Help me find independent sources and compare them with Copilot's claims.
+- Help me document the verification in `workflow.md`.
+- Help me review and improve our `README.md`.
+
+**Claude:**
+- Help with the verification commands for Task 5.
+- Help investigate the SSL certificate error during the fresh-clone test.
+- Help compare the manual Luxembourg calculations.
+- Help draft the `README.md`.
+
+### How we used AI
+
+Ülkü asked GitHub Copilot why Luxembourg's CO₂ emissions per person are high. Copilot explained this using the small population, territorial emissions accounting, transport, industrial activity and fuel sales to non-residents.
+
+Ülkü used ChatGPT to review Copilot's explanation, identify which claims needed independent verification, find relevant sources from OECD and STATEC, and prepare the documentation.
+
+Chaymae used Claude for help with verification commands, understanding the SSL certificate problem on macOS, comparing the manual Luxembourg calculation and drafting the README.
+
+### What we accepted, changed or rejected
+
+- We accepted Copilot's explanation as a starting point, but did not treat it as verified evidence.
+- We checked the explanation about cross-border fuel sales against independent OECD and STATEC sources.
+- Copilot provided numerical values for Luxembourg's population and CO₂ emissions, but did not quantify the contribution of fuel sales to non-residents.
+- We chose Denmark as the main answer in the README because the percentage reduction allows comparison between countries with different starting levels.
+- We revised the README to explain that Luxembourg's per-capita reduction reflects both population growth and a decrease in total emissions.
+- We improved the setup instructions for Windows and macOS.
+- We reviewed AI-generated suggestions before using them.
+
+### Verification
+
+- Chaymae checked the Git history of the tests.
+- She tested the complete pipeline in a fresh clone on macOS.
+- The first download failed because the Python installation lacked the required SSL certificates. After using Python's official `Install Certificates.command`, the download worked and the SHA-256 checksum matched.
+- The cleaning script, tests and analysis ran successfully in the fresh clone.
+- `python -m pytest` → 5 passed.
+- Chaymae independently calculated Luxembourg's population growth and total CO₂ reduction using the raw dataset and a calculator.
+- Ülkü compared Copilot's explanation with OECD and STATEC publications.
+- We reviewed the analysis results and README before committing the changes.
+
+### Reflection
+
+This task showed us that a script working on an existing dataset does not prove that the complete pipeline works from scratch. The fresh-clone test revealed an SSL certificate issue that we had not encountered before.
+
+We also learned that AI-generated explanations may sound convincing without providing enough evidence. Copilot gave numerical values from our dataset but did not provide a measurable contribution for the cross-border fuel sales it mentioned.
+
+Independent sources, manual calculations and reproducible tests were necessary to evaluate the results. We used AI for assistance, but kept the verification and final decisions under human control.
