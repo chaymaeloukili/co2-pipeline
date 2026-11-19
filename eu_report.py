@@ -46,7 +46,7 @@ def eu_members(df):
 
 def eu_totals(eu):
     """Territorial and consumption-based CO2 of the EU per year, in Mt."""
-    return eu.groupby("year")[["co2", "consumption_co2"]].sum()
+    return eu.groupby("year")[["co2", "consumption_co2"]].sum(min_count=1)
 
 
 def per_person(eu):
@@ -106,9 +106,11 @@ def main():
     print("Share of world emissions")
     print(f"  {first}: {share[first]:.1f} %   {latest}: {share[latest]:.1f} %")
 
-    c0, c1 = totals.loc[first, "consumption_co2"], totals.loc[latest, "consumption_co2"]
+    last_c = totals["consumption_co2"].last_valid_index()  # latest year with consumption data
+    c0, c1 = totals.loc[first, "consumption_co2"], totals.loc[last_c, "consumption_co2"]
+    t_last_c = totals.loc[last_c, "co2"]
     print("Emissions embedded in imports (consumption-based minus territorial)")
-    print(f"  {first}: {c0 - t0:,.0f} Mt   {latest}: {c1 - t1:,.0f} Mt")
+    print(f"  {first}: {c0 - t0:,.0f} Mt   {last_c}: {c1 - t_last_c:,.0f} Mt")
 
     cuts = biggest_cuts(eu)
     print(f"\nBiggest cuts in CO2 per person since {first}, in tonnes")
