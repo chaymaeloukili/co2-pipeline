@@ -79,3 +79,16 @@ Copilot was useful as an independent second review because it checked multiple c
 However, we should not accept AI results without verification, especially when numerical results differ between reviews.
 
 The original `eu_report.py` was not modified during the review.
+
+### Independent verification of an AI result
+
+We independently checked one numerical result reported by Copilot against the original OWID dataset.
+
+Copilot reported that the EU-27 share of global CO2 emissions in 1990 was 17.025%.
+
+Using pandas, we checked the original `World` and `European Union (27)` rows for 1990:
+
+- World CO2 emissions: 22,732.145 Mt
+- EU-27 share of global CO2 emissions: 17.025%
+
+The value reported by Copilot matches the original OWID data. Therefore, this numerical result was correct and did not reproduce the incorrect world-share calculation in `eu_report.py`.
