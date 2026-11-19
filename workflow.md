@@ -250,3 +250,59 @@ This matches our pipeline.
 - Total CO₂: 8.702 → 7.040 million tonnes, that is **−19.1 %**.
 
 So per person, Luxembourg cut its emissions by about 48 %, but its total emissions fell only by 19 %. A big part of the cut per person comes from the growing population.
+
+### One sceptical question
+
+**Responsible:** Ülkü
+
+**Prompt to GitHub Copilot:**
+
+Why are the CO2 emissions per person of Luxembourg so high?
+
+**Copilot's answer:**
+
+Copilot explained Luxembourg's high per-capita CO₂ emissions by its relatively small population, territorial emissions accounting, transport, historical industrial activity and fuel sales to non-residents.
+
+Copilot provided the following numbers:
+
+- 2024 total CO₂ emissions: approximately 7.04 million tonnes
+- 2024 population: 673,042 residents
+- 2024 CO₂ per capita: 10.460 tonnes
+- 2000 CO₂ per capita: 19.953 tonnes
+- Absolute reduction: 9.493 tonnes per person
+
+However, Copilot did not provide a specific number for the share of fuel sales to non-residents.
+
+**Independent verification:**
+
+I checked Copilot's explanation using two independent sources.
+
+The OECD report *Managing the Green Transition* (2025) discusses Luxembourg's fuel prices and cross-border fuel purchases. It supports the explanation that fuel sales to non-residents contribute to Luxembourg's emissions.
+
+STATEC's *Conjoncture Flash* (September 2025) also discusses the relationship between fuel sales and emissions in Luxembourg.
+
+The exact numerical values provided by Copilot were taken from our OWID dataset. I did not independently verify these numbers against OECD or STATEC.
+
+The contribution of historical industrial activity was not quantified in Copilot's response.
+
+**Did Copilot answer with a number? Could I find that number?**
+
+Yes. Copilot provided numerical values for Luxembourg's population, total CO₂ emissions and CO₂ emissions per capita.
+
+These numbers were consistent with our project dataset, but I could not independently confirm the exact values in the OECD or STATEC sources.
+
+Copilot did not provide a numerical estimate of how much fuel sales to non-residents contribute to Luxembourg's emissions. Therefore, there was no specific percentage to verify for this explanation.
+
+**Conclusion:**
+
+Copilot's main explanation is plausible and supported by independent sources, especially regarding cross-border fuel sales.
+
+However, not all details were independently verified. This shows why AI-generated explanations must be checked against reliable sources.
+
+**Sources:**
+
+OECD (2025): Managing the Green Transition  
+https://www.oecd.org/en/publications/2025/04/oecd-economic-surveys-luxembourg-2025_3eb782b5/full-report/managing-the-green-transition_8dafc271.html
+
+STATEC (2025): Conjoncture Flash, September 2025  
+https://statistiques.public.lu/en/actualites/2025/conjflash-09-25.html
