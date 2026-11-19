@@ -169,3 +169,34 @@ The code was reviewed before the file creation was approved. The script and test
 - Existing tests were not modified.
 
 **Commit:** `ea15a63`
+
+
+### Step 3 – src/analyse.py
+
+Driver: Ülkü. Navigator: Chaymae.
+
+**Prompt:** A five-part prompt (Goal, Context, Constraints, Done when, First) for a script that reads `data/processed/co2_eu.csv`, prints the three countries with the biggest cut in tonnes per person and in percent from 2000 to 2024, and saves one chart in `figures/`.
+
+**What we changed in the plan, and why:**
+- Copilot wanted to leave out countries with missing values. We asked it to name these countries and stop with an error, so no country disappears silently.
+- Copilot planned to report a value of 0 in 2000, because the percent change is not defined then. We kept this.
+- Chaymae asked to also print the values of 2000 and 2024, so we can check the numbers by hand in Task 5.
+- Only read `data/processed/`, only write the chart to `figures/`, do not change the tests, no new packages.
+
+**What we rejected, and why:**
+- We did not let Copilot run the script or the tests. Ülkü read the code first and ran everything by hand. No other tool calls had to be rejected.
+
+**Result:**
+
+| Reading | 1. | 2. | 3. |
+|---|---|---|---|
+| Tonnes per person | Luxembourg 19.953 → 10.460 (−9.493 t) | Finland 11.015 → 5.301 (−5.714 t) | Ireland 11.900 → 6.339 (−5.561 t) |
+| Percent | Denmark 10.170 → 4.746 (−53.33 %) | Finland 11.015 → 5.301 (−51.87 %) | Malta 6.172 → 3.204 (−48.09 %) |
+
+The two readings give different winners: Luxembourg in tonnes, Denmark in percent.
+
+The script prints the row count after the filter: 54 rows (27 countries × 2 years). No country had a value of 0 in 2000. Chaymae ran the script on macOS and got the same numbers, and checked the arithmetic of all six results.
+
+Chart: `figures/co2_eu_reductions.png`. Tests: `python -m pytest` → 5 passed.
+
+**Commit:** `4265fab`
