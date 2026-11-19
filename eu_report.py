@@ -51,7 +51,8 @@ def eu_totals(eu):
 
 def per_person(eu):
     """CO2 per person in the EU per year, in tonnes."""
-    return eu.groupby("year")["co2_per_capita"].mean()
+    totals = eu.groupby("year")[["co2", "population"]].sum()
+    return totals["co2"] * 1_000_000 / totals["population"]
 
 
 def world_share(df, eu):
