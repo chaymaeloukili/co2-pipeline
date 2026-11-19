@@ -41,8 +41,7 @@ def load(path=DATA):
 def eu_members(df):
     """Rows of the EU member states, with the year each one joined."""
     eu = df.merge(MEMBERS, on="country")
-    # consumption-based emissions are needed for the imports section
-    return eu.dropna(subset=["consumption_co2"])
+    return eu
 
 
 def eu_totals(eu):
