@@ -75,3 +75,12 @@ def test_biggest_cuts_start_in_1990(df):
     pc = eu.pivot(index="year", columns="country", values="co2_per_capita")
     expected = (pc.ffill().iloc[-1] - pc.loc[1990]).round(1)
     assert (cuts["tonnes"] - expected).abs().max() < 0.05
+
+
+def test_chart_starts_at_zero_in_mt(df, tmp_path):
+    import matplotlib.pyplot as plt
+    totals = r.eu_totals(r.eu_members(df))
+    r.chart(totals, 1990, 2024, path=tmp_path / "chart.png")
+    ax = plt.gca()
+    assert ax.get_ylim()[0] == 0  # the y-axis starts at 0
+    assert "Mt" in ax.get_ylabel()  # the unit is million tonnes
