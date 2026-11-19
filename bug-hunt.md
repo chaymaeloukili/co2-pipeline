@@ -92,3 +92,8 @@ Using pandas, we checked the original `World` and `European Union (27)` rows for
 - EU-27 share of global CO2 emissions: 17.025%
 
 The value reported by Copilot matches the original OWID data. Therefore, this numerical result was correct and did not reproduce the incorrect world-share calculation in `eu_report.py`.
+
+
+## Conclusion
+
+The error in `world_share` changed the report the most: the EU's share of world emissions in 1990 went from 2.4 % to 17.0 %, seven times higher, because the old denominator also counted World, continents and income groups. The most convincing wrong number in a presentation would have been the cut in CO₂ per person of −45.7 %: it looks realistic and positive, so nobody would check it, but it came from an unweighted average and the wrong set of countries. Copilot was faster than us and found all six errors with numbers from the raw data. We were better at catching the new silent error after a fix: after the `dropna` fix, the 2024 imports became −2,426 Mt, and we caught it with a test. We also learned that each test must fail first, otherwise it

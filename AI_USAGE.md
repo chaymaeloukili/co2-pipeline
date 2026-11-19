@@ -194,3 +194,12 @@ This task showed us that a script working on an existing dataset does not prove 
 We also learned that AI-generated explanations may sound convincing without providing enough evidence. Copilot gave numerical values from our dataset but did not provide a measurable contribution for the cross-border fuel sales it mentioned.
 
 Independent sources, manual calculations and reproducible tests were necessary to evaluate the results. We used AI for assistance, but kept the verification and final decisions under human control.
+
+## Task 6 and 7 – Bug hunt
+
+**Tools and models:** GitHub Copilot in VS Code (Interactive, Manual permissions, Auto model), Claude (Anthropic) used by Chaymae, ChatGPT (OpenAI, GPT-6) used by Ülkü.
+
+- **Task 6:** We searched the errors ourselves with the slide "Review checklist for data code" and the two official hints of the lab. Chaymae used Claude to explain lines and to get check commands; Claude did not say which lines were wrong. `bug-hunt.md` was committed before the Copilot review. Ülkü ran the Copilot review in a fresh session with the prompt from the lab and compared the results.
+- **Task 7:** Ülkü fixed errors 1–3 (fixes with Copilot), Chaymae fixed the new imports error and errors 4–6. For Chaymae's part, Claude suggested the test code and the fixes; Chaymae checked that every test failed first and passed after the fix. One commit per fix.
+- **Accepted:** the fixes, after reading them and running the tests.
+- **Checked:** `python -m pytest` → 13 passed; every number in `report_after.txt` compared with the rows `European Union (27)` and `World`; `diff report_before.txt report_after.txt`.
