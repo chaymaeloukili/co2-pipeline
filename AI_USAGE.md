@@ -86,3 +86,47 @@ We learned that an agent may reuse existing instructions rather than independent
 We also learned that `AGENTS.md` provides guidance but is not a technical security boundary. File permissions and manual approval settings provide additional protection.
 
 The most important lesson was that AI-generated actions and suggestions should always be reviewed, especially when working with original datasets.
+
+## Task 4 – Plan, then build in small steps
+
+**Date:** 19 November 2026
+
+**Tools and Models:**
+- GitHub Copilot Chat (VS Code, Interactive mode, Manual permissions, Auto model selection). In step 2 it picked mai-code-2-flash.
+- ChatGPT (OpenAI, GPT-6), used by Ülkü
+- Claude (Anthropic), used by Chaymae
+
+### Steps and roles
+
+| Step | Script | Driver | Navigator | Commit |
+|---|---|---|---|---|
+| 1 | `src/download.py` | Ülkü | Chaymae | `402128c` |
+| 2 | `tests/test_clean.py` + `src/clean_co2.py` | Chaymae | Ülkü | `c0e2866` (tests), `ea15a63` (script) |
+| 3 | `src/analyse.py` | Ülkü | Chaymae | `4265fab` |
+
+All prompts, plan changes and rejected actions are in `workflow.md`, section Build.
+
+### How we used AI
+
+- GitHub Copilot wrote the three scripts, after we reviewed and changed its plans.
+- We wrote the tests before the cleaning script. Chaymae wrote `tests/test_clean.py` with help from Claude: Claude suggested the code for the four tests, and Chaymae checked that she understood every line. Copilot did not write or change the tests.
+- Ülkü used ChatGPT to improve her prompts, to review Copilot's plans and code (`download.py`, `analyse.py`), for help with Git and terminal commands, to understand the results, and for wording in `workflow.md`.
+- Chaymae used Claude to fill in the five-part prompt for the cleaning script, to review Copilot's plans and code before approving them, and for wording in `workflow.md`.
+
+### What we accepted, changed or rejected
+
+- Accepted: the three scripts, after reading the full code.
+- Changed: we asked for the pinned commit, a fresh-clone setup and no writes to the read-only `data/raw/` (step 1); a stop with an error on missing values instead of filling or dropping them (steps 2 and 3); the values of 2000 and 2024 in the output (step 3).
+- Rejected: every attempt of Copilot to run scripts or tests itself. In step 2, after we rejected the terminal command, Copilot tried two other tools (the pylance MCP server and the test tool). Both only offered "Allow in this Session". We skipped both and told Copilot not to run anything.
+
+### Verification
+
+- We ran all scripts and tests ourselves. `python -m pytest` → 5 passed.
+- Before the cleaning step, Chaymae checked by hand that the EU27 rows from 2000 to 2024 have 675 rows and 0 missing values.
+- `git status` before every commit. `tests/` was not changed by Copilot.
+- The checksum of the raw data file was unchanged (`7f78e2b2…`).
+- Chaymae ran all three scripts on macOS, Ülkü on Windows. We got the same numbers and checked the arithmetic of the six results.
+
+### Reflection
+
+Copilot respected our rules when we wrote them in the prompt and in AGENTS.md. But when we rejected a command, it looked for another way to run it. Manual permissions were necessary to stop this.
