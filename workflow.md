@@ -79,3 +79,46 @@ What Copilot did:
 A good idea: the cleaning script that writes to `data/processed/`. We build it in Task 4, after we write the tests.
 
 After the test, the checksum of the raw file was the same as before.
+
+## Build
+
+### Step 1 – src/download.py
+
+Driver: Ülkü. Navigator: Chaymae.
+
+**Prompt** (from the lab):
+
+```
+Goal:        A script src/download.py that downloads owid-co2-data.csv and
+             owid-co2-codebook.csv into data/raw/, from the pinned version
+             in AGENTS.md.
+Context:     We have downloaded both files by hand with curl.
+Constraints: Python standard library or requests. Never overwrite a file
+             that exists. Stop with an error if a download fails. Append
+             date, URL and file name to data/raw/SOURCES.txt.
+Done when:   The script downloads only files that are missing, and
+             prints the size and the SHA-256 checksum of each file.
+First:       Show me your plan and list your assumptions. Do not write
+             code yet.
+```
+
+**What we changed in the plan, and why:**
+- The URLs use the pinned commit `382ee6c...`, not `main` or `master`, so the data does not change.
+- In a fresh clone, `data/raw/` does not exist (it is in `.gitignore`). The script creates it, so the pipeline runs from scratch.
+- The script opens `SOURCES.txt` only when it downloads a file, because `data/raw/` is read-only.
+- Only the Python standard library, no new packages.
+- The script does not change the file permissions.
+
+**What we rejected, and why:**
+- Copilot wanted to run `python src/download.py` itself. Ülkü rejected it, read the code first, and then ran the script by hand.
+
+**Result:**
+
+```
+owid-co2-data.csv: 14377942 bytes, SHA-256 7f78e2b218ce4bb8c538bbec04fdc9a7982e8d40bff972e650df603899edd5f6
+owid-co2-codebook.csv: 24149 bytes, SHA-256 33b4f5e00efd58c7b83863f736beba1af4df946b43642b0400c3ec38648e0e8e
+```
+
+The checksum of the data file matches the lab. Chaymae ran the script on macOS too and got the same result.
+
+**Commit:** `402128c`
