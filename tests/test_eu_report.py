@@ -62,3 +62,8 @@ def test_per_person_is_population_weighted():
 def test_missing_consumption_is_not_zero(df):
     totals = r.eu_totals(r.eu_members(df))
     assert pd.isna(totals.loc[2024, "consumption_co2"])  # no data for 2024, so not 0
+
+
+def test_world_share_matches_owid(df, owid_eu):
+    share = r.world_share(df, r.eu_members(df))
+    assert share[1990] == pytest.approx(owid_eu.loc[1990, "share_global_co2"], abs=0.5)
