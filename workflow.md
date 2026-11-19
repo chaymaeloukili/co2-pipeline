@@ -122,3 +122,50 @@ owid-co2-codebook.csv: 24149 bytes, SHA-256 33b4f5e00efd58c7b83863f736beba1af4df
 The checksum of the data file matches the lab. Chaymae ran the script on macOS too and got the same result.
 
 **Commit:** `402128c`
+
+### Step 2: Cleaning
+
+**Driver:** Chaymae  
+**Navigator:** Ülkü  
+**Model:** mai-code-2-flash
+
+#### Prompt and Plan
+
+The goal was to create `src/clean_co2.py` using the existing tests in `tests/test_clean.py`.
+
+The script should:
+- Read `data/raw/owid-co2-data.csv`.
+- Keep only the EU27 countries.
+- Filter the years 2000–2024.
+- Keep the six required columns.
+- Print row counts after each filter.
+- Write the result to `data/processed/co2_eu.csv`.
+- Leave the raw data and tests unchanged.
+
+#### Plan Changes
+
+Copilot initially suggested keeping missing values in the dataset.
+
+Before implementation, the data was checked manually. The filtered dataset contained 675 rows and no missing values.
+
+The plan was adjusted: If missing values occur, the script must print their number and stop with an error. Missing values must not be filled or silently removed.
+
+#### Rejected Actions
+
+Copilot wanted to execute the cleaning script and tests automatically. These requests were rejected using "Skip" because the code should be reviewed before execution.
+
+Copilot then attempted to run checks through other tools, including Pylance MCP Server and a test tool. These requests were also rejected.
+
+After the instruction "Do not run anything, with no tool", Copilot stopped requesting tool execution.
+
+The code was reviewed before the file creation was approved. The script and tests were executed manually.
+
+#### Results
+
+- Rows after EU27 filter: **5197**
+- Rows after year filter (2000–2024): **675**
+- Missing values: **0**
+- Tests: **5 passed**
+- Existing tests were not modified.
+
+**Commit:** `ea15a63`
