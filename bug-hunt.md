@@ -12,3 +12,70 @@ We reviewed the script function by function with the slide "Review checklist for
 | 4 | `world_share` | Aggregates | The denominator sums `co2` over all rows, also World, continents and income groups. It should be the row `World`. | 1990: sum of all rows = 154,667 Mt, `World` = 22,732 Mt; report 2.4 %, OWID `share_global_co2` = 17.0 % |
 | 5 | `biggest_cuts` | Filters / off by one | `year > since` leaves out the base year. The comparison starts in 1991, the report says "since 1990". | first year in `period` = 1991 for every country |
 | 6 | `chart` | Chart / units | The y-axis says "t" but the values are in Mt, and it starts at 2000 instead of 0. The drop looks much bigger. | report: 3,706 → 2,402 Mt (−35 %); visible bar height 1,706 → 402 (looks like −76 %) |
+
+
+## Human vs. AI review
+
+After completing and committing our manual bug hunt, we started a new GitHub Copilot session to independently review `eu_report.py`.
+
+Copilot was instructed to check its suspicions against the raw CSV data and not to modify any files.
+
+| Bug | Human review | Copilot review |
+|---|---|---|
+| Missing Czechia | Found | Found |
+| Missing values remove valid rows | Found | Found |
+| Unweighted per-capita average | Found | Found |
+| Incorrect world-share denominator | Found | Found |
+| Base year excluded from ranking | Found | Found |
+| Misleading chart units and scale | Found | Found |
+
+### Comparison
+
+- Both reviews identified the same six bugs.
+- Copilot confirmed its findings using calculations based on the raw CSV data.
+- Copilot did not report any additional bugs.
+- There were no false positives among the six reported findings.
+- One numerical difference remains: the manual review reported an unweighted 1990 average of 9.87 t, while Copilot reported 10.095 t. The calculations may use different subsets of countries and rows, so this difference should be checked separately.
+
+### Reflection
+
+The manual review helped us understand how small data-handling decisions can affect the final results without causing a Python error.
+
+Copilot was useful as an independent second review because it checked multiple calculations against the raw dataset.
+
+However, we should not accept AI results without verification, especially when numerical results differ between reviews.
+
+The original `eu_report.py` was not modified during the review.
+
+## Human vs. AI review
+
+After completing and committing our manual bug hunt, we started a new GitHub Copilot session to independently review `eu_report.py`.
+
+Copilot was instructed to check its suspicions against the raw CSV data and not to modify any files.
+
+| Bug | Human review | Copilot review |
+|---|---|---|
+| Missing Czechia | Found | Found |
+| Missing values remove valid rows | Found | Found |
+| Unweighted per-capita average | Found | Found |
+| Incorrect world-share denominator | Found | Found |
+| Base year excluded from ranking | Found | Found |
+| Misleading chart units and scale | Found | Found |
+
+### Comparison
+
+- Both reviews identified the same six bugs.
+- Copilot confirmed its findings using calculations based on the raw CSV data.
+- Copilot did not report any additional bugs.
+- There were no false positives among the six reported findings.
+- One numerical difference remains: the manual review reported an unweighted 1990 average of 9.87 t, while Copilot reported 10.095 t. The calculations may use different subsets of countries and rows, so this difference should be checked separately.
+
+### Reflection
+
+The manual review helped us understand how small data-handling decisions can affect the final results without causing a Python error.
+
+Copilot was useful as an independent second review because it checked multiple calculations against the raw dataset.
+
+However, we should not accept AI results without verification, especially when numerical results differ between reviews.
+
+The original `eu_report.py` was not modified during the review.
